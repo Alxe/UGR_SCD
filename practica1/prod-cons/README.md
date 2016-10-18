@@ -27,8 +27,7 @@ Resumen de Semáforos
 
 ```cpp
 /* Inicialización de semáforos */
-sem_init(&sem_productor, 0, tam_vec); // Puede producir hasta que 
-no quepa más
+sem_init(&sem_productor, 0, tam_vec); // Puede producir hasta que no quepa más
 sem_init(&sem_consumidor, 0, 0); // Inicialmente no hay elementos
 sem_init(&sem_es, 0, 1);
 
