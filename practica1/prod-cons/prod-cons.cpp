@@ -31,8 +31,8 @@ unsigned int
   num_ultimo = 0;
 
 sem_t
-	sem_lectura,
-  sem_escritura,
+	sem_consumidor,
+  sem_productor,
   sem_es;
 
 // ---------------------------------------------------------------------
@@ -90,11 +90,11 @@ void * funcion_productor( void * )
     // Producción de datos
     int dato = producir_dato();
 
-    sem_wait(&sem_escritura);
+    sem_wait(&sem_productor);
 
     datos[(num_ultimo++) % tam_vector] = dato;
 
-    sem_post(&sem_lectura);
+    sem_post(&sem_consumidor);
 
     sem_wait(&sem_es);
     cout << "[Productor]\t\tDato insertado: " << dato << endl << flush ;
@@ -113,11 +113,11 @@ void * funcion_consumidor( void * )
   {
     int dato ;
 
-    sem_wait(&sem_lectura);
+    sem_wait(&sem_consumidor);
 
     dato = datos[(num_primero++) % tam_vector];
     
-    sem_post(&sem_escritura);
+    sem_post(&sem_productor);
 
     sem_wait(&sem_es);
     cout << "[Consumidor]\t\tDato extraído : " << dato << endl << flush ;    
@@ -132,8 +132,8 @@ void * funcion_consumidor( void * )
 int main()
 {
   // Inicialización de semáforos
-	sem_init(&sem_escritura, 0, tam_vector);
-  sem_init(&sem_lectura, 0, 0);
+	sem_init(&sem_productor, 0, tam_vector);
+  sem_init(&sem_consumidor, 0, 0);
   sem_init(&sem_es, 0, 1);
 
   // Inicialización de hilos
@@ -147,8 +147,8 @@ int main()
   pthread_join(th_consumidor, NULL);
 
   // Liberación de semáforos
-  sem_destroy(&sem_escritura);
-  sem_destroy(&sem_lectura);
+  sem_destroy(&sem_productor);
+  sem_destroy(&sem_consumidor);
   sem_destroy(&sem_es);
 
   cout << "fin" << endl;
