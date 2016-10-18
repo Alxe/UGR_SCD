@@ -27,8 +27,7 @@ Resumen de Semáforos
 
 ```cpp
 /* Inicialización de semáforos */
-sem_init(&sem_fumadores[0..2], 0, 1); // Uno para cada fumador, 
-tres fumadores
+sem_init(&sem_fumadores[0..2], 0, 1); // Uno para cada fumador, tres fumadores
 sem_init(&sem_estanquero, 0, 1);
 sem_init(&sem_es, 0, 1);
 
